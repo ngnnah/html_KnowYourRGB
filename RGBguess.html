@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Asul" rel="stylesheet">
+
+	<title>Guess what RGB?</title>
+	<style type="text/css">
+	* {
+		font-family: 'Asul', sans-serif;
+	}
+	html, body {
+		height: 100%;
+		background-color: black;
+	}
+	header {
+		background-color: blue;
+		color: white;
+		text-align: center;
+		padding: 10px 0;
+	}
+	nav ul, h1,h3 {
+		margin: 0;
+	}
+	nav ul li {
+		display: inline-block;
+	}
+	#status {
+		display: inline-block;
+		width: 25%;
+		text-align: center;
+	}
+
+
+	nav {
+
+		background-color: white;
+		text-align: center;
+	}
+
+	li button {
+		padding: 5px;
+		background-color: transparent;
+		color: blue;
+		outline: none;
+		border: none;
+		font-weight: 700;
+		font-size: inherit;
+		transition: all .24s;
+	}
+	button:focus {outline:none;}
+	li button:hover, .selected {
+		color: white;
+		background-color: blue;
+	}
+	section {
+		margin-top: 20px;
+		width: 50%;
+		text-align: center;
+
+	}
+	section button {
+		width: 25%;
+		padding-bottom: 25%;
+		border-radius: 8px;
+		margin: 1%;
+		transition: background 0.5s;
+
+	}
+	main {
+		display: flex;
+		justify-content: center;
+		background-color: black;
+		width: 100%;
+		height: 100%:;
+	}
+
+	</style>
+</head>
+<body>
+	<header>
+		<h3>THE GREAT</h3>
+		<h1>RGB()</h1>
+		<h3>GUESSING GAME</h3>
+	</header>
+	<nav>
+		<ul>
+			<li><button id='new'>NEW COLORS</button></li>
+			<li id='status'></li>
+			<li><button id='easy'>EASY</button></li>
+			<li><button id='hard' >HARD</button></li>
+		</ul>
+	</nav>
+
+
+	<main>
+		<section>
+			<div class='firstRow'>
+				<button></button>
+				<button></button>
+				<button></button>
+			</div>
+			<div class='secondRow'>
+				<button></button>
+				<button></button>
+				<button></button>
+			</div>	
+		</section>
+	</main>
+	<script type="text/javascript">
+
+		document.querySelector('#new').onclick = function() {
+			document.querySelector('#status').textContent = '';
+			document.querySelector('#new').classList.add('selected');
+			document.querySelector('#easy').classList = '';
+			document.querySelector('#hard').classList = '';
+			newGame(ezMode);
+		}
+
+		document.querySelector('#easy').onclick = function() {
+			document.querySelector('#status').textContent = '';
+			document.querySelector('#easy').classList.add('selected');
+			document.querySelector('#hard').classList = '';
+			document.querySelector('#new').classList = '';
+			ezMode = true;
+			newGame(ezMode);
+		}
+		document.querySelector('#hard').onclick = function() {
+			document.querySelector('#status').textContent = '';
+			document.querySelector('#hard').classList.add('selected');
+			document.querySelector('#easy').classList = '';
+			document.querySelector('#new').classList = '';
+			ezMode = false;
+			newGame(ezMode);
+		}
+
+
+		var options = document.querySelectorAll('div button');
+		function newRGBcode() {
+			return Math.floor(Math.random()*256);
+		}
+
+		function randomRGB() {
+			return `rgb(${newRGBcode()}, ${newRGBcode()}, ${newRGBcode()})`;
+		}
+		var correctRGB; 
+		var ezMode = false;
+		newGame(ezMode);
+
+		function newGame(ezMode) {
+			correctRGB = randomRGB();
+
+			function randomFill() {
+				for (o =0; o<options.length; o++) {
+					options[o].style.backgroundColor = randomRGB();
+					options[o].addEventListener('click', guessIsCorrect);
+				}
+				var correct;
+				if (ezMode) {
+					correct = Math.floor(Math.random()*3);
+					document.querySelector('.secondRow').style.display = 'none';
+				} else {
+					correct = Math.floor(Math.random()*6);
+					document.querySelector('.secondRow').style.display = 'block';
+				}
+				return correct;
+			}	
+			var correct = randomFill();
+			options[correct].style.backgroundColor = correctRGB;
+			document.querySelector('h1').textContent = correctRGB.toUpperCase();
+		}
+		
+
+		function guessIsCorrect() {
+			if (this.style.backgroundColor !==  correctRGB) {
+				this.style.visibility = 'hidden';
+				document.querySelector('#status').textContent = 'Try again';
+			} else {
+				document.querySelector('#status').textContent = 'Soliddddd!';
+				//all hells broken
+				document.querySelector('header').style.backgroundColor = correctRGB;
+				for (o =0; o<options.length; o++) {
+					options[o].style.backgroundColor = correctRGB;
+					options[o].style.visibility = 'visible';
+				}
+
+			}
+		}
+
+	</script>
+</body>
+</html>
