@@ -1,5 +1,6 @@
 # knowRGB
 
-A little guessing game that
-...
-test/help review your knowledge of RGB color!
+## a simple one-page html app
+
+* A little guessing game that
+* tests and helps review your knowledge of RGB color!
